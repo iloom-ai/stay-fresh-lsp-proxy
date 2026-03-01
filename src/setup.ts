@@ -120,30 +120,6 @@ function ensureEnableLspTool(): void {
   console.log("  Set ENABLE_LSP_TOOL=1 in ~/.claude/settings.json");
 }
 
-function removeEnableLspTool(): void {
-  const settingsPath = join(homedir(), ".claude", "settings.json");
-  if (!existsSync(settingsPath)) return;
-
-  let settings: Record<string, unknown>;
-  try {
-    settings = JSON.parse(readFileSync(settingsPath, "utf-8"));
-  } catch {
-    return;
-  }
-
-  const env = settings.env as Record<string, string> | undefined;
-  if (!env || !("ENABLE_LSP_TOOL" in env)) return;
-
-  delete env.ENABLE_LSP_TOOL;
-  if (Object.keys(env).length === 0) {
-    delete settings.env;
-  } else {
-    settings.env = env;
-  }
-
-  writeFileSync(settingsPath, JSON.stringify(settings, null, 2) + "\n");
-  console.log("  Removed ENABLE_LSP_TOOL from ~/.claude/settings.json");
-}
 
 function install(requested: string[]): void {
   console.log("\nstay-fresh-setup: Installing LSP proxy plugins\n");
@@ -249,10 +225,6 @@ function uninstall(): void {
   } catch {
     console.log("  Marketplace not found (skipping)");
   }
-
-  // Step 3: Remove ENABLE_LSP_TOOL
-  console.log("\nStep 3: Cleaning up settings...");
-  removeEnableLspTool();
 
   console.log("\n--- Uninstall Complete ---");
   console.log("Restart Claude Code for changes to take effect.");

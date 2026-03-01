@@ -177,7 +177,7 @@ If you prefer to set things up manually instead of using the setup script:
 npx stay-fresh-lsp-proxy setup --uninstall
 ```
 
-This removes all stay-fresh plugins, the marketplace registration, the `ENABLE_LSP_TOOL` setting, and the global package.
+This removes all stay-fresh plugins and the marketplace registration.
 
 ## Built by iloom
 
